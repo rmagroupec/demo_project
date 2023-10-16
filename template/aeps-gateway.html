@@ -1,0 +1,423 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style>
+    .box {
+        height: 70px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 2px;
+    }
+
+    .box1 {
+        height: 50px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 2px;
+        font-size: 18px;
+        font-weight: 400;
+        color: #878a99;
+    }
+
+    .form-check-input:hover {
+        border: 5px solid black;
+    }
+
+    .form-check-input {
+        border: 4px solid gray;
+        font-size: 20px;
+    }
+
+    .ekyBtn {
+        height: 40px;
+        width: 180px;
+        border-radius: 5px;
+        background-color: #405189;
+        color: white;
+        border: none;
+        float: right;
+        /* margin-top: 5px; */
+        box-shadow: 1px 2px 5px lightgreen;
+    }
+</style>
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+           
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header" style="background-color: #405189;">
+                            <h5 class="card-title mb-0 text-white">AEPS
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            
+                            <div class="row">
+                                <div class="col-6 col-md-6">
+                                    <div class="d-flex mt-4">
+                                       
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <div class="mb-3">
+                                                {% if paysprint_on != False %}
+                                               <a href=""> Option 1
+                                          </a>
+                                          {% else %}
+                                         <form>
+                                            {% csrf_token %}
+                                            <button type="button" id="onboard-retailer-option-1" class="btn btn-primary">Option 1 Complete KYC</button>
+                                         </form>
+                                        {% endif %}
+                                               
+                                            </div>
+                                       </div>
+                                    </div>
+                                </div>
+                                <!--end col-->
+                                <div class="col-6 col-md-6">
+                                    <div class="d-flex mt-4">
+                                        <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                            
+                                        </div>
+                                        <div class="flex-grow-1 overflow-hidden">
+                                            <div class="mb-3">
+                                            {% if eko_onboarding != False %}
+                                              <a href="{% url 'aeps_payment' %}">  Option 2
+                                            </a>
+                                            {% else %}
+                                            <a href="{% url 'aeps_payment' %}">  Option 2 Complete KYC
+                                            </a>
+                                            {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            
+                              
+                              <hr>
+                              
+                        </div>
+                    </div>
+                </div><!--end col-->
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header" style="background-color: #405189;">
+                            <h5 class="card-title mb-0 text-white">Recent AEPS Transection
+
+
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <table id="alternative-pagination"
+                                class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                                style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Order Id </th>
+                                        <th>Recharge Details </th>
+                                        <!-- <th> Transaction Details </th> -->
+                                        <th>Amount/Commission </th>
+                                        <th>Status</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="reports-data">
+                                   
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div><!--end col-->
+            </div>
+            <!--end row-->
+
+
+
+
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+    <div class="modal fade" id="onboard-iframe" data-bs-backdrop="static" data-bs-keyboard="false" aria-labelledby="myExtraLargeModalLabel" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <form class="row g-3 needs-validation" novalidate method="post">
+                    {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Retialer Onboarding</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <iframe id="iframe_url" src="" title="Retailer Onboard" width="100%" height="550px"></iframe>
+                    
+                    </div>
+                
+            </form>
+    
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script> © Velzon.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by Themesbrand
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="modal fade" id="aeps-onboarding-1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <form>
+                    {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Retailer Onboarding</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                </div>
+                
+                <div class="modal-body" id="receipt-modal-data">
+                    <br><br>
+                                    <div class="row">
+                                        <div class="col-xl-3 col-sm-6">
+                                            <div class="box">
+                                                <div class="form-check mb-2">
+                                                    <input type="radio" id="html" class="form-check-input"
+                                                        name="finger_print_device" value="MANTRA">
+                                                    <label for="html" style="font-size: 20px;">MANTRA</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-sm-6">
+                                            <div class="box">
+                                                <div class="form-check">
+                                                    <input type="radio" id="a1" class="form-check-input"
+                                                        name="finger_print_device" value="STARTEK">
+                                                    <label for="a1" style="font-size: 20px;">STARTEK</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-sm-6">
+                                            <div class="box">
+                                                <div class="form-check">
+                                                    <input type="radio" id="aa1" class="form-check-input"
+                                                        name="finger_print_device" value="MORPHO">
+                                                    <label for="aa1" style="font-size: 20px;">MORPHO</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-sm-6">
+                                            <div class="box">
+                                                <div class="form-check">
+                                                    <input type="radio" id="aa2" class="form-check-input" value="SECUGEN"
+                                                        name="finger_print_device">
+                                                    <label for="aa2" style="font-size: 20px;">SECUGEN</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br>
+
+                                    <div class="row">
+                                        <div class="col-xl-3 col-sm-6">
+                                            <div class="box">
+                                                <div class="form-check mb-2">
+                                                    <input type="radio" id="html1" class="form-check-input"
+                                                        name="finger_print_device" style="transform:translateX(-9px)" value="TATVIK">
+                                                    <label for="html1"
+                                                        style="font-size: 20px;transform:translateX(-9px)">TATVIK</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-sm-6">
+                                            <div class="box">
+                                                <div class="form-check">
+                                                    <input type="radio" id="a11" class="form-check-input"
+                                                        name="finger_print_device" style="transform:translateX(33px)" value="NEXTBIOMERTIC">
+                                                    <label for="a11"
+                                                        style="font-size: 20px;transform:translateX(33px)">NEXTBIOMERTIC</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-sm-6">
+                                            <div class="box">
+                                                <div class="form-check">
+                                                    <input type="radio" id="aa11" class="form-check-input"
+                                                        name="finger_print_device" style="transform:translateX(-25px)" value="IRIS">
+                                                    <label for="aa11"
+                                                        style="font-size: 20px;transform:translateX(-25px)">IRIS</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-3 col-sm-6">
+                                            <div class="box">
+                                                <div class="form-check">
+                                                    <input type="radio" id="aa22" class="form-check-input"
+                                                        name="finger_print_device" style="transform:translateX(7px)" value="MANTRA LI">
+                                                    <label for="aa22"
+                                                        style="font-size: 20px;transform:translateX(7px) ">MANTRA
+                                                        LI</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <br>
+                                    <div id="captureError">
+                                        <b style="color: red;"></b>
+                                    </div>
+                   <center>
+                    <img src="https://www.bing.com/th/id/OGC.b7389e994602e365e9b5bec84ee610e7?pid=1.7&rurl=https%3a%2f%2fwww.fingertec.com%2fbiometric_data_security%2fimages%2fICN_scan_fp.gif&ehk=m05AiEvRV0PpMrfDiHIV1pt%2bujJnnyDO79183Kv7gzk%3d"
+                                                alt="" id="on-finger-click" width="100px" style="cursor: pointer;"
+                                            >
+
+                                            <input type="hidden" id="finger-xml">
+                   </center>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="on-board-retailer-1"  class="btn btn-primary ">Print</button>
+                </div>
+            </form>
+    
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+</div>
+
+<script>
+    $("#recharge-now").click(function(){
+        let operator = $("#operator").val();
+        let phone = $("#number").val();
+        let amount = $("#amount").val();
+        let pin = $("#pin").val();
+        let csr = $("input[name=csrfmiddlewaretoken").val();
+        mydata= {operator:operator, number:phone, amount:amount, pin:pin, csrfmiddlewaretoken:csr}
+        $.ajax({
+            url:"{% url 'create_dth_recharge' %}",
+            method:"POST",
+            data:mydata,
+            success:function(data){
+                getReportsData();
+                Swal.fire(data.message)
+
+            }
+        })
+    });
+
+
+let lattitude ;
+let longitude ;
+$(document).ready(function(){
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+          lattitude = position.coords.latitude;
+          longitude = position.coords.longitude;
+          console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+        });
+      } else {
+        console.log("Geolocation is not supported by this browser.");
+      }
+    getReportsData();
+})
+
+function getReportsData(){
+    $('#reports-data').empty(); 
+    $.ajax({
+        url:"{% url 'report_dth_recharge' %}",
+        method:"GET",
+        success:function(data){
+            console.log(data);
+            let i =0;
+            data.data.forEach(element => {
+            
+                $('#reports-data').append('<tr>' + '<td>' + element.txn_id + '</td>' +  '<td>' + element.number + '</td>' + '<td>' + element.amount + '</td>' + '<td>' + element.status + '</td>' + '</tr>');  
+           i =i++;
+            });
+        }
+    })
+}
+let fingerprint_device;
+$("#on-finger-click").click(function(){
+    fingerprint_device = $("input:radio[name=finger_print_device]:checked").val();
+    if(fingerprint_device === "MANTRA"){
+        cauptreByMantra();
+    }
+});
+
+    function cauptreByMantra(){
+        var url = "https://127.0.0.1:11100/rd/capture";
+            //var PIDOPTSs = "<?xml version='1.0'?> <PidOptions ver='1.0'> <Opts fCount='1' fType='0' iCount='0' pCount='0'  format='0'   pidVer='2.0' timeout='10000'  posh='' env='2' wadh=''/></PidOptions>";
+            var PIDOPTS = "<?xml version='1.0'?> <PidOptions ver='1.0'> <Opts fCount='1' fType='0' iCount='0' pCount='0' pgCount='2' format='0'   pidVer='2.0' timeout='10000' pTimeout='20000' posh='UNKNOWN' env='P' /> <CustOpts><Param name='mantrakey' value='' /></CustOpts> </PidOptions>";
+            var xhr;
+            var ua = window.navigator.userAgent;
+            var msie = ua.indexOf("MSIE ");
+            xhr = new XMLHttpRequest();
+            xhr.open("CAPTURE", url, true);
+            xhr.setRequestHeader("Content-Type", "text/xml");
+            xhr.setRequestHeader("Accept", "text/xml");
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+                    var status = xhr.status;
+                    console.log(status);
+                    if (status == 200) {
+                        $("#captureError").append("Fingerprint accepted successfully");
+                        $("#finger-xml").val(xhr.responseText)
+                    }
+                    else {
+                        $("#captureError").append("something went wrong.");
+
+                    }
+                }
+
+            };
+
+            xhr.send(PIDOPTS);
+    }
+    
+$("#onboard-retailer-option-1").click(function(){
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+    // let finger_code = $("#finger-xml").val();
+    // let mydata = {finger_code : finger_code, csrfmiddlewaretoken:csr, lat:lattitude, long:longitude}
+    // console.log(mydata)
+    $.ajax({
+        url:"{% url 'aeps_onboarding' %}",
+        data:{csrfmiddlewaretoken:csr},
+        method:"POST",
+        success:function(data){
+            $('#aeps-onboarding-1').modal('hide');
+            console.log(data);
+            if(data.redirect_url != ""){
+
+                $('#onboard-iframe').modal('show');
+                
+                $("#iframe_url").attr('src', data.redirect_url);
+            }
+        }
+    })
+})
+
+
+    
+</script>
+
+{% endblock %}

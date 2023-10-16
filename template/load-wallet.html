@@ -1,0 +1,354 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Load Wallet</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Home</a>
+                                </li>
+                                <li class="breadcrumb-item active">Load Wallet</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <!-- <div class="alert alert-danger" role="alert">
+                This is <strong>Datatable</strong> page in wihch we have used <b>jQuery</b> with cnd link!
+            </div> -->
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <h5 class="card-title mb-0">Load Wallet List</h5>
+                            {% if mtype == "success" %}
+                            <div class="alert alert-success" role="alert">
+                                {{message}}
+                              </div>
+                            {% elif mtype == "failed" %}
+                            <div class="alert alert-danger" role="alert">
+                                {{message}}
+                              </div>
+                            {% endif %}
+                            
+                            <button class="btn btn-primary " type="button" data-bs-toggle="modal" data-bs-target="#add_Load_Wallet" id="btn-new-event"><i class="mdi mdi-plus"></i> New Request </button>
+                        </div>
+                        
+                        <div class="card-body">
+                            <table id="buttons-datatables" class="display table table-bordered"
+                                style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Deposit Bank Details</th>
+                                        <th>Reference Details</th>
+                                        <th>Status</th>
+                                        <th>Amount</th>
+                                        <th>Remark</th>
+                                        {% if user.role.name == "White label" %}
+                                        <th>User Details</th>
+                                        <th>Action</th>
+
+                                        {% else %}
+                                        <!-- <th></th> -->
+                                        {% endif %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in rdata %}
+                                    <tr id="2">
+                                        <td>{{item.id}}</td>
+                                        <td>{{ item.bankname }}</td>
+                                        <td>
+                                            Ref No - {{ item.ref_number }}
+                                        <br>
+                                        
+                                            Pay Date - {{ item.pay_date }}
+                                        <br>
+                                            Pay Mode - {{ item.payment_mode }}
+                                        
+                                        </td>
+                                        <td>{% if item.status == "pending" %}<button class="btn btn-warning">{{ item.status }}</button> {% elif item.status == "approve" %} <button class="btn btn-success">{{ item.status }}</button> {% else %}<button class="btn btn-danger">{{ item.status }}</button> {% endif %}</td>   
+                                        <td>{{ item.amount }}</td>
+                                        <td>{{item.remark}}</td>
+                                        {% if user.role.name == "White label" %}
+                                        <td></td>
+                                        <td><button data-requestid = "{{item.id}}" id="update-load-modal" class="btn btn-primary">Update</button></td>
+
+                                        {% else %}
+                                        <!-- <th></th> -->
+                                        {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                    
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!--end row-->
+
+
+
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script> © Paynims.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by Rakle IT Solutions
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer> 
+    <!-- Static Backdrop -->
+
+<!-- staticBackdrop Modal -->
+<div class="modal fade" id="add_Load_Wallet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="row g-3 needs-validation" novalidate method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Add Load Wallet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+                    <input type="hidden" name="action" value="create_request">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="validationCustom01" class="form-label">Deposit Bank</label>
+                            <select class="form-select " aria-label="Default select example" name="deposit_bank" id="validationCustom02"  >
+                                {% for category in data  %}
+                                    <option value="{{ category.bank_name }} ({{ category.account_number }}, {{ category.bank_ifsc }})">{{ category.bank_name }} ({{ category.account_number }}, {{ category.bank_ifsc }})</option>
+                                {% endfor %}
+                                </select>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="validationCustom02" class="form-label">Amount</label>
+                            <input type="text" class="form-control" placeholder="Enter value" id="validationCustom02"  required name="amount">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="validationCustom02" class="form-label">Payment Mode</label>
+                            <select class="form-select " aria-label="Default select example" name="payment_mode" id="validationCustom02"  >
+                                
+                                <option value="IMPS">IMPS </option>
+                                <option value="NEFT">NEFT</option>
+                                <option value="Cash Deposit">Cash Deposit</option>
+                                <option value="UPI">UPI</option>
+                                <option value="Other">Other</option>
+                                
+                            </select>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="validationCustom02" class="form-label">Pay Date</label>
+                            <input type="date" class="form-control" placeholder="Enter value" id="validationCustom02"  required name="pay_date">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="validationCustom02" class="form-label">Ref No.</label>
+                            <input type="text" class="form-control" placeholder="Enter value" id="validationCustom02"  required name="ref_num">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="validationCustom02" class="form-label">Pay Slip</label>
+                            <input type="file" class="form-control" placeholder="Enter value" id="validationCustom02"  required name="pay_slip">
+                            
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="validationCustom02" class="form-label">Remark</label>
+                            <input type="text" class="form-control" placeholder="Enter value" id="validationCustom02"  required name="remark">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        
+                        </div>
+                    
+                    
+                   
+                   
+                   
+                    
+                
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary ">Save Changes</button>
+            </div>
+        </form>
+
+        </div><!-- /.modal-content -->
+    </div>
+</div>
+<div class="modal fade" id="update_Load_Wallet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="row g-3 needs-validation" novalidate method="post">
+                {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Update Load Wallet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="action" id="action" value="update_request">
+                <div class="col-md-12">
+                    <label for="validationCustom04" class="form-label">Select Action</label>
+                    <select class="form-select" id="validationCustom04"  required name="status">
+                        <option selected disabled value="">Select Status</option>
+                        <option value="approve">Approve</option>
+                        <option value="pending">Pending</option>
+                        <option value="reject">Reject</option>
+                    </select>
+                    <div class="valid-feedback">
+                        Looks good!
+                    </div>
+                    <div class="invalid-feedback">
+                        Please select a valid Status.
+                    </div>
+                </div>
+                    <div class="col-md-12">
+                        <label for="validationCustom02" class="form-label">Remark</label>
+                        <input type="text" class="form-control" id="remark" placeholder="Enter value" id="validationCustom02"  required name="remark">
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    
+                    
+                
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="update-load-wallet" class="btn btn-primary ">Update Wallet</button>
+            </div>
+        </form>
+
+        </div><!-- /.modal-content -->
+    </div>
+</div>
+
+<div class="modal fade" id="delete_Load Wallet" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Delete Load Wallet</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure ? you want to delete</h4>
+                  
+                
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="deletebtn" class="btn btn-primary ">Delete</button>
+            </div>
+       
+
+        </div><!-- /.modal-content -->
+    </div>
+</div>
+</div>
+<script>
+
+
+let wallet_id;
+$("#update-load-modal").click(function(){
+    wallet_id= $(this).attr('data-requestid');
+    $("#update_Load_Wallet").modal('show');
+    console.log(wallet_id);
+})
+
+
+$("#update-load-wallet").click(function(){
+
+    
+    let status = $("#validationCustom04").val();
+    let remark = $("#remark").val();
+    let action = $("#action").val();
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+    let mydata = {id:wallet_id, status:status,action:action, remark:remark, csrfmiddlewaretoken:csr};
+    console.log(mydata)
+    $.ajax({
+        url:"{% url 'update_wallet_request' %}",
+        method:"POST", 
+        data:mydata, 
+        success:function(data){
+            console.log(data);
+            if(data.mtype == "success"){
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: data.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+
+            }
+            else{
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: data.message,
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+            }
+            window.location.reload();
+        }
+    })
+
+})
+    </script>
+{% endblock %}
+
+
+

@@ -1,0 +1,21 @@
+.clockable{
+    cursor: pointer;
+}
+.bg-teal-300{
+    background-color: rgb(7, 195, 189);
+    border-radius: 5px;
+}
+.content-group{
+    border: 2px solid rgb(255, 255,255);
+    border-radius: 5px;
+}
+.design{
+    margin-top: 5px;
+}
+.img-circle{
+    border-radius: 50%;
+    margin:15px;
+}
+.text-design{
+    color: white;
+}

@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+           
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header" style="background-color: #405189;">
+                            <h5 class="card-title mb-0 text-white">Mobile Recharge Reports
+
+
+
+
+
+
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <table id="recharge_report"
+                                class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                                style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id </th>
+                                        <th>Order ID</th>
+                                        <th>TXN No</th>
+                                        <th>Opearator</th>
+                                        <th> Product </th>
+                                        <th>Customer Number </th>
+                                        <th>Order Amount</th>
+                                        <th>Transection Date</th>
+                                        <th>Order Status</th>
+                                        <th>Commission</th>
+                                        <th>TDS Amount</th>
+                                        <th>Receipt</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div><!--end col-->
+            </div>
+            <!--end row-->
+
+
+
+
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script> © Velzon.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by Themesbrand
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="modal fade" id="print-receipt-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                
+                
+                <div class="modal-body" id="receipt-modal-data">
+                    <table class="table table-bordered  border-dark" id="modal-receipt">
+        
+                        <tr>
+                          <td colspan="4"><center><img src="{% static 'assets/images/logo-sm.png' %}" height="40px" width="10%"></center></td>
+                        </tr>
+                        <tr>
+                          <td colspan="4"><center>Customer Copy - Recharge Receipt</center></td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">Date & Time</td>
+                          <td colspan="2" id="rp-date"></td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">Transection No</td>
+                          <td colspan="2" id="rp-tn"></td>
+                        </tr>
+              
+                        <tr>
+                          <td colspan="2">Operator</td>
+                          <td colspan="2" id="rp-op"></td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">Product</td>
+                          <td colspan="2" id="rp-pd"></td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">Status</td>
+                          <td colspan="2" id="rp-st"></td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">Customer No</td>
+                          <td colspan="2" id="rp-cn"></td>
+                        </tr>
+              
+                        <tr>
+                          <td colspan="2">Amount</td>
+                          <td colspan="2" id="rp-am"></td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">Order ID</td>
+                          <td colspan="2" id="rp-oid"></td>
+                        </tr>
+                        
+              
+                        <tr>
+                          <td colspan="4"><center>Note:Please do not pay any charges/fee</center></td>
+                         
+                        </tr>    
+                   
+                    </table>
+                      
+                    
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="deletebtn" onclick="createPDF()" class="btn btn-primary ">Print</button>
+                </div>
+           
+    
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $(document).ready(function(){
+    getReportsData();
+});
+function createPDF() {
+            var element = document.getElementById('modal-receipt');
+            html2pdf(element, {
+                margin:1,
+                padding:0,
+                filename: 'recharge_receipt.pdf',
+                image: { type: 'jpeg', quality: 1 },
+                html2canvas: { scale: 2,  logging: true },
+                jsPDF: { unit: 'in', format: 'A2', orientation: 'P' },
+                class: createPDF
+            });
+        };
+function getReportsData(){
+    $('#recharge_report').empty(); 
+    var columns = [];
+    $.ajax({
+        url:"{% url 'get_recharge_report' %}",
+        method:"GET",
+        success:function(data){
+            columnNames = Object.keys(data.data[0]);
+                    for (var i in columnNames) {
+                        columns.push({
+                            data: columnNames[i],
+                            title: columnNames[i]
+                        });
+                    }
+            $('#recharge_report').DataTable({    
+                        "processing": true, // for show progress bar
+                        "serverSide": false, // for process server side
+                        "filter": true, // this is for disable filter (search box)
+                        "orderMulti": false, // for disable multiple column at once
+                        
+                        "data": data.data,
+                        "columns": columns
+                    });
+        //     console.log(data);
+        //     let i =0;
+        //     data.data.forEach(element => {
+            
+        //         $('#recharge_report').append('<tr>' + '<td>' + element.id + '</td>' + '<td>' + element.order_id + '</td>' + '<td>' + element.txn_id + '</td>' + '<td>' + element.operator + '</td>' + '<td>' + element.product + '</td>' + '<td>' + element.number + '</td>' +'<td>' + element.amount + '<td>' + element.created_at + '</td>'+ '<td>' + element.status + '</td>'  + '<td>' + element.commission + '</td>'  + '<td>' + element.tds + '</td>'  + '<td> <button data-reportsid="'+element.id +'" id="print-receipt" class="btn btn-primary">Print</button></td>'  +  '</tr>');  
+        //    i =i++;
+        //     });
+        }
+    });
+}
+
+$("tbody").on('click','#print-receipt',function(){
+
+let id = $(this).attr('data-reportsid');
+let csr = $("input[name=csrfmiddlewaretoken").val();
+mydata= {id:id, csrfmiddlewaretoken:csr}
+console.log(mydata);
+$('#print-receipt-modal').modal('show');
+$.ajax({
+    url:"{% url 'show_receipt_recharge' %}", 
+    method:"GET",
+    data:mydata,
+    success:function(data){
+        if(data.mtype == "success"){
+            $("#rp-date").text(data.data.created_at);
+            $("#rp-tn").text(data.data.txn_nu);
+            $("#rp-op").text(data.data.operator);
+            $("#rp-pd").text(data.data.product);
+            $("#rp-st").text(data.data.status);
+            $("#rp-cn").text(data.data.customer);
+            $("#rp-am").text(data.data.amount);
+            $("#rp-oid").text(data.data.order);
+            $('#print-receipt-modal').modal('show');
+        }
+    }
+})
+
+});
+
+</script>
+
+
+{% endblock %}
+
+
+

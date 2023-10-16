@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+           
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header" style="background-color: #405189;">
+                            <h5 class="card-title mb-0 text-white">Mobile Recharge
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <form >
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-6 col-md-6">
+                                        <div class="d-flex mt-4">
+                                           
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <div class="mb-3">
+                                                    <label for="lastNameinput" class="form-label">Mobile Operator
+                                                    </label>
+                                                    <select class="form-select sl" id="operator" aria-label=".form-select-lg example"
+                                                    style="width: 100%;">
+                                                    {% for recharge in rdata  %}
+                                                    <option value="{{recharge.name}}">{{recharge.name}}</option>
+                                                    {% endfor %}
+                                                    
+                                                
+                                                </select>
+                                                </div>
+                                           </div>
+                                        </div>
+                                    </div>
+                                    <!--end col-->
+                                    <div class="col-6 col-md-6">
+                                        <div class="d-flex mt-4">
+                                            <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                                
+                                            </div>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <div class="mb-3">
+                                                    <label for="lastNameinput" class="form-label">Mobile Number
+                                                    </label>
+                                                    <input type="number" class="form-control" id="phone" placeholder="Enter your Mobile Number
+                                                    " id="lastNameinput"
+                                                    style="border: none;border-bottom: 1px solid #405189;border-radius: 0px;"
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                
+                                  <div class="row">
+                                    <div class="col-6 col-md-6">
+                                        <div class="d-flex mt-4">
+                                           
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <div class="mb-3">
+                                                    <label for="lastNameinput" class="form-label">Recharge Amount
+                                                    </label>
+                                                    <input type="number" class="form-control" id="amount" placeholder="Enter your Recharge Amount
+                                                    " id="lastNameinput"
+                                                    style="border: none;border-bottom: 1px solid #405189;border-radius: 0px;"
+                                                    >
+    
+                                                </div>
+                                                
+                                           </div>
+    
+                                        </div>
+                                        <span class="badge badge-soft-danger fs-13" style="cursor: pointer;background-color: #405189;color: white;"> Plan</span>
+                                    </div>
+                                    
+                                    <!--end col-->
+                                    <div class="col-6 col-md-6">
+                                        <div class="d-flex mt-4">
+                                            <div class="flex-shrink-0 avatar-xs align-self-center me-3">
+                                                
+                                            </div>
+                                            <div class="flex-grow-1 overflow-hidden">
+                                                <div class="mb-3">
+                                                    <label for="lastNameinput" class="form-label">T-Pin
+                                                    </label>
+                                                    <input type="number" class="form-control" id="pin" placeholder="Enter your T-Pin
+                                                    " 
+                                                    style="border: none;border-bottom: 1px solid #405189;border-radius: 0px;"
+                                                    >
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                         <a href="#" style="float: right;font-size: 15px;">Generate Or Forgot Pin?</a>
+                                    </div>
+                                  </div>
+                                  <hr>
+                                  <button type="button" class="btn" id="recharge-now"
+                                  style="background-color: #405189;color: white;float: right;">PAY NOW</button>
+    
+                            </form>
+                        </div>
+                    </div>
+                </div><!--end col-->
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header" style="background-color: #405189;">
+                            <h5 class="card-title mb-0 text-white">Recent Mobile Recharge
+
+
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <table id="alternative-pagination"
+                                class="table nowrap dt-responsive align-middle table-hover table-bordered"
+                                style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Order Id </th>
+                                        <th>Recharge Details </th>
+                                        {% comment %} <th> Transaction Details </th> {% endcomment %}
+                                        <th>Amount/Commission </th>
+                                        <th>Status</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody id="reports-data">
+                                    
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div><!--end col-->
+            </div>
+            <!--end row-->
+
+
+
+
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script> © Paynims.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by Rakle IT Solutions
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+</div>
+<script>
+    $("#recharge-now").click(function(){
+        let operator = $("#operator").val();
+        let phone = $("#phone").val();
+        let amount = $("#amount").val();
+        let pin = $("#pin").val();
+        let csr = $("input[name=csrfmiddlewaretoken").val();
+        mydata= {operator:operator, number:phone, amount:amount, pin:pin, csrfmiddlewaretoken:csr}
+        $.ajax({
+            url:"{% url 'create_mobile_recharge' %}",
+            method:"POST",
+            data:mydata,
+            success:function(data){
+                getReportsData();
+                Swal.fire(data.message)
+
+            }
+        })
+    });
+
+
+
+$(document).ready(function(){
+    getReportsData();
+})
+
+function getReportsData(){
+    $('#reports-data').empty(); 
+    $.ajax({
+        url:"{% url 'report_mobile_recharge' %}",
+        method:"GET",
+        success:function(data){
+            console.log(data);
+            let i =0;
+            data.data.forEach(element => {
+            
+                $('#reports-data').append('<tr>' + '<td>' + element.txn_id + '</td>' +  '<td>' + element.number + '</td>' + '<td>' + element.amount + '</td>' + '<td>' + element.status + '</td>' + '</tr>');  
+           i =i++;
+            });
+        }
+    })
+}
+
+    
+</script>
+
+{% endblock %}
+
+
+

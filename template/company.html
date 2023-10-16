@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Scheme Manager</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Resource Management</a>
+                                </li>
+                                <li class="breadcrumb-item active">Scheme</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <!-- <div class="alert alert-danger" role="alert">
+                This is <strong>Datatable</strong> page in wihch we have used <b>jQuery</b> with cnd link!
+            </div> -->
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <h5 class="card-title mb-0">Scheme List</h5>
+                            {% if mtype == "success" %}
+
+                            <div class="alert alert-success" role="alert">
+                                {{message}}
+                            </div>
+
+                            {% elif mtype == "failed" %}
+                            <div class="alert alert-danger" role="alert">
+                                {{message}}
+                            </div>
+                            {% else %}
+                            <div></div>
+                            {% endif %}
+
+                            <button class="btn btn-primary " type="button" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop" id="btn-new-event"><i class="mdi mdi-plus"></i>
+                                Add</button>
+                        </div>
+
+                        <div class="card-body">
+                            <table id="buttons-datatables" class="display table table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Short Name At</th>
+                                        <th>Website</th>
+                                        <th>Status</th>
+                                        <th>Logo</th>
+                                        <th>Created</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in data %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ item.company_name }}</td>
+                                        <td>{{ item.sort_name }}</td>
+                                        <td><a href="{{ item.website }}">Company URL</a></td></td>
+                                        <td>{{ item.status }}</td>
+                                        <td>{{ item.created_at }}</td>
+                                        <td> <img src="{{item.logo.url}}" alt="" srcset="" style="height: 50px;width: 50px;"></td>
+                                        <td>
+                                            <a href="" data-bs-toggle="modal" data-bs-target="#edit_role"
+                                                id="edit_role_data">
+                                                <i class="bx bx-edit-alt"></i>
+                                            </a>
+                                            ||
+                                            <a href="">
+                                                <i class="bx bx-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!--end row-->
+
+
+
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script> © Paynims.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by Rakle IT Solutions
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Static Backdrop -->
+
+    <!-- staticBackdrop Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form class="row g-3 needs-validation" method="post"  enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="myModalLabel">Add Role</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="col-md-12">
+                            <label for="validationCustom01" class="form-label">Company name</label>
+                            <input type="text" class="form-control" id="validationCustom01"  required name="company_name">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom01" class="form-label">Short name</label>
+                            <input type="text" class="form-control" id="validationCustom01"  required name="sort_name">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom02" class="form-label">Website</label>
+                            <input type="text" class="form-control" id="validationCustom02"  required name="website">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom02" class="form-label">logo</label>
+                            <input type="file" class="form-control" id="validationCustom02"  required name="image">
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom04" class="form-label">Status</label>
+                            <select class="form-select" id="validationCustom04" required name="status">
+                                <option selected disabled value="">Choose...</option>
+                                <option value="True">Active</option>
+                                <option value="False">Inactive</option>
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a valid Status.
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom02" class="form-label">Sender</label>
+                            <input type="text" class="form-control" id="validationCustom02"  required name="sender_id">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom02" class="form-label">SMS User</label>
+                            <input type="text" class="form-control" id="validationCustom02"  required name="sms_user_id">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom02" class="form-label">SMS Password</label>
+                            <input type="text" class="form-control" id="validationCustom02"  required name="sms_password">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom02" class="form-label">SMS UTI</label>
+                            <input type="text" class="form-control" id="validationCustom02"  required name="sms_uti">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom02" class="form-label">SMTP URL</label>
+                            <input type="text" class="form-control" id="validationCustom02"  required name="smtp_url">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom02" class="form-label">SMTP User Name</label>
+                            <input type="text" class="form-control" id="validationCustom02"  required name="smtp_user_name">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom02" class="form-label">SMTP User Name</label>
+                            <input type="text" class="form-control" id="validationCustom02"  required name="smtp_password">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <label for="validationCustom02" class="form-label">SMTP Port</label>
+                            <input type="text" class="form-control" id="validationCustom02"  required name="smtp_port">
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary ">Save Changes</button>
+                    </div>
+                </form>
+
+            </div><!-- /.modal-content -->
+        </div>
+    </div>
+</div>
+{% endblock %}

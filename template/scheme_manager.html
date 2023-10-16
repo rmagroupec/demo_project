@@ -1,0 +1,591 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">Scheme Manager</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Resource Management</a>
+                                </li>
+                                <li class="breadcrumb-item active">Scheme</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <!-- <div class="alert alert-danger" role="alert">
+                This is <strong>Datatable</strong> page in wihch we have used <b>jQuery</b> with cnd link!
+            </div> -->
+
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <h5 class="card-title mb-0">Scheme List</h5>
+                            {% if mtype == "success" %}
+                            <div class="alert alert-success" role="alert">
+                                {{message}}
+                              </div>
+                            {% elif mtype == "failed" %}
+                            <div class="alert alert-danger" role="alert">
+                                {{message}}
+                              </div>
+                            {% endif %}
+                            
+                            <button class="btn btn-primary " type="button"  id="add-btn"><i class="mdi mdi-plus"></i> Add</button>
+                        </div>
+                        
+                        <div class="card-body">
+                            <table id="buttons-datatables" class="display table table-bordered"
+                                style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th>Created At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    {% for item in data %}
+                                    <tr id="2">
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.type }}</td>
+                                        <td>
+                                            <div class="form-check form-switch form-switch-right form-switch-md"
+                                                style="margin-left: 10px;">
+                                                <input class="form-check-input code-switcher" value="{{ item.status }}" type="checkbox"
+                                                    id="default-modal">
+                                            </div>
+                                        </td>   
+                                        <td>{{ item.created_at }}</td>
+                                        <td><a href="#"  data-catid="{{ item.id }}" class="btn-edit"  id="btn-new-event"><i class="bx bx-edit-alt"></i></a> || <a href="" class="btn-del" data-bs-target="" data-catid="{{ item.id }}" id="btn-new-event"><i class="bx bx-trash"></i></a> || <div class="btn-group">
+                                            <button type="button" class="btn btn-light dropdown-toggle btn-com" data-catid="{{ item.id }}"
+                                                data-bs-toggle="dropdown" aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <i class=" bx bx-menu" style="font-size: 20px;"></i>
+
+                                            </button>
+
+                                            <div class="dropdown-menu" style="padding: 10px;">
+                                                <span
+                                                    style="padding-left: 10px;font-size:12px;">Settings</span>
+                                                <a class="dropdown-item" href="#"
+                                                    style="font-size: 14px;"><i
+                                                        class=" bx bxs-edit"></i>&nbsp;&nbsp; Edit</a>
+                                                <span
+                                                    style="padding-left: 10px;font-size:12px;">Commission</span>
+
+                                              
+
+                                                    <li>
+                                                        {% for pdt in pdata %}
+                                                    <a class="dropdown-item" href="#" data-pdtid="{{ pdt.id }}" id="commission-btn"
+                                                    style="font-size: 14px;"><i
+                                                        class="bx bx-rupee"></i>&nbsp;&nbsp;{{pdt.name}}
+                                                    </a>
+                                                
+                                                    {% endfor %}
+                                                    </li>
+                                                <span
+                                                    style="padding-left: 10px;font-size:12px;">Charge</span>
+                                                <a class="dropdown-item" href="#"><i
+                                                        class="bx bx-rupee"></i>&nbsp;&nbsp;Dmt Charge</a>
+
+                                                <!-- <div class="dropdown-divider"></div> -->
+                                                <!-- <a class="dropdown-item" href="#">Separated link</a> -->
+                                            </div>
+                                        </div></td>
+                                    </tr>
+                                    {% endfor %}
+                                    
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!--end row-->
+
+
+
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script> © Paynims.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by Rakle IT Solutions
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer> 
+    <!-- Static Backdrop -->
+    <div class="modal fade bs-example-modal-xl" id="bs-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <form id="form">
+            <div class="modal-content">
+                <div class="modal-header" style="background-color:#607d8b;height: 60px">
+                    <h5 class="modal-title" id="myLargeModalLabel"
+                        style="color: white;margin-top: -10px;">mobile Commission</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <!-- <div class="modal-body">
+                   
+                </div> -->
+                <!-- Bordered Tables -->
+                <table id="commission-data" class="table table-bordered table-nowrap">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="color:#607d8b">Operator</th>
+                            <th scope="col" style="color:#607d8b">Commission Type</th>
+                            <th scope="col" style="color:#607d8b">Whitelable</th>
+                            <th scope="col" style="color:#607d8b">Super Distributor</th>
+                            <th scope="col" style="color:#607d8b">Distributor</th>
+                            <th scope="col" style="color:#607d8b">Retailer</th>
+
+                        </tr>
+
+                    </thead>
+                    <tbody>
+
+                        
+ 
+                     </tbody>
+                    
+                </table>
+                <div class="modal-footer">
+                    <a href="javascript:void(0);" class="btn btn-link link-success fw-medium but" 
+                        data-bs-dismiss="modal"> Close</a>
+                    <button type="button" class="btn" id="add-commission"
+                        style="background-color: #607d8b;color: white;">submit</button>
+                </div>
+            </div>
+        </form>
+        </div><!-- /.modal-dialog -->
+    </div>
+<!-- staticBackdrop Modal -->
+<div class="modal fade" id="add_scheme" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="row g-3 needs-validation" novalidate method="post">
+                {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Add Scheme</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+                
+                    <div class="col-md-12">
+                        <label for="validationCustom01" class="form-label">Scheme name</label>
+                        <input type="text" class="form-control" id="validationCustom01"  required name="scheme_name">
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="validationCustom02" class="form-label">Scheme Type</label>
+                        <input type="text" class="form-control" id="validationCustom02"  required name="scheme_type">
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <label for="validationCustom04" class="form-label">Status</label>
+                        <select class="form-select" id="validationCustom04" required name="scheme_status">
+                            <option selected disabled value="">Choose...</option>
+                            <option value="True">Active</option>
+                            <option value="False">Inactive</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid Status.
+                        </div>
+                    </div>
+                   
+                   
+                    {% comment %} <div class="col-12">
+                        <button class="btn btn-primary" type="submit">Submit form</button>
+                    </div> {% endcomment %}
+                
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary ">Save Changes</button>
+            </div>
+        </form>
+
+        </div><!-- /.modal-content -->
+    </div>
+</div>
+<div class="modal fade" id="update_scheme" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form class="row g-3 needs-validation" novalidate method="post">
+                {% csrf_token %}
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Update Scheme</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+                    <input type="hidden" id="scheme_id" name="scheme_id">
+                    <div class="col-md-12">
+                        <label for="validationCustom01" class="form-label">Scheme name</label>
+                        <input type="text" class="form-control" id="scheme_name"  required name="scheme_name">
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <label for="validationCustom02" class="form-label">Scheme Type</label>
+                        <input type="text" class="form-control" id="scheme_type"  required name="scheme_type">
+                        <div class="valid-feedback">
+                            Looks good!
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12">
+                        <label for="validationCustom04" class="form-label">Status</label>
+                        <select class="form-select" id="scheme_status" required name="scheme_status">
+                            <option selected disabled value="">Choose...</option>
+                            <option value="True">Active</option>
+                            <option value="False">Inactive</option>
+                        </select>
+                        <div class="invalid-feedback">
+                            Please select a valid Status.
+                        </div>
+                    </div>
+                   
+                   
+                    {% comment %} <div class="col-12">
+                        <button class="btn btn-primary" type="submit">Submit form</button>
+                    </div> {% endcomment %}
+                
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="btn-save" class="btn btn-primary ">Save Changes</button>
+            </div>
+        </form>
+
+        </div><!-- /.modal-content -->
+    </div>
+</div>
+
+<div class="modal fade" id="delete_scheme" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Delete Scheme</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+            </div>
+            <div class="modal-body">
+                <h4>Are you sure ? you want to delete</h4>
+                  
+                
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                <button type="button" id="deletebtn" class="btn btn-primary ">Delete</button>
+            </div>
+       
+
+        </div><!-- /.modal-content -->
+    </div>
+</div>
+</div>
+<script>
+    let scheme_id;
+    let provider_id;
+// open commission modal
+$("tbody").on('click','.btn-com',function(){
+    scheme_id = $(this).attr('data-catid');
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+    mydata= {sid:scheme_id, csrfmiddlewaretoken:csr}
+    
+   
+});
+$("li").on('click','#commission-btn',function(){
+    $('#commission-data').empty();  
+    provider_id = $(this).attr('data-pdtid');
+    console.log(provider_id);
+    console.log(scheme_id);
+    
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+    mydata = {com_id:provider_id,  csrfmiddlewaretoken:csr}
+
+    
+  
+
+    $.ajax({
+        url:"{% url 'get_provider_by_id' %}",
+        method:"POST",
+        data:mydata,
+        success:function(json){
+            $('#bs-example-modal-xl').modal('show');
+            console.log(json);
+            // var tr; 
+            
+        //Append each row to html table  
+        // data = JSON.parse(json);
+        let i =0;
+            json.pdata.forEach(element => {
+            
+                // tr = $('<tr/>');  
+                // tr.append("<td>" + json[i].id + "</td>");  
+                // tr.append("<td>" + json[i].name + "</td>");  
+                // tr.append("<td>" + json[i].id + "</td>");  
+                // tr.append("<td>" + json[i].name + "</td>");  
+                $('#commission-data').append('<tr>' + '<th>' + element.name + '</th>' + "<td class='p-t-0 p-b-0'>" + 
+                             "<select class='form-select sl' aria-label='.form-select-lg example'  name='type1'> <option value='0'>Select Type</option> <option value='percent'>Percent</option><option value='flat'>Flat</option></select>"
+                          + '</td>' + '<td>' + "<input type='text' value='"+ element.whitelabel+"' class='form-control' id='whitelabel_{{element.id}}' name='whitelabel' placeholder='Enter Value'>" + '</td>' + '<td>' + "<input type='text' value='"+ element.super_dist+"' class='form-control' id='super_dist_{{element.id}}' name='super_dist' placeholder='Enter Value'>" + '</td>' + '<td>' + "<input type='text' class='form-control' value='"+ element.distributor+"' id='distributor_{{element.id}}' name='distributor' placeholder='Enter Value'>" + '</td>' + '<td>' + "<input type='text' value='"+ element.retailer+"' class='form-control' id='retailer_{{element.id}}' name='retailer' placeholder='Enter Value'>" + "<input type='hidden' name='id' value='"+element.id+"'>" + '</td>' + '</tr>');  
+           i =i++;
+            })
+            // data.data.forEach(element => {
+            //     // debugger
+            //     console.log(element);
+            //     // $("#id_").val(data.data.id);
+            //     $("#whitelabel_"+element.id).val(element.white_label);
+            //     // $("#scheme_type").val(data.data.type);
+            // });
+            $('#bs-example-modal-xl').modal('show');
+           },
+    })
+});
+
+
+
+
+
+
+
+
+
+
+$("#add-commission").click(function(e){
+    let ids  = [];
+    let type  = [];
+    let whitelabel  = [];
+    let super_dist  = [];
+    let distributor  = [];
+    let retailer = [];
+
+    var fieldMap = {
+        'id': ids,
+        'type1': type,
+        'whitelabel': whitelabel,
+        'super_dist': super_dist,
+        'distributor': distributor,
+        'retailer': retailer
+    };
+
+    // Iterate over the fields and extract data
+    $.each(fieldMap, function(fieldName, fieldArray) {
+        $('input[name="' + fieldName + '"], select[name="' + fieldName + '"]').each(function (index, member) {
+            var value = $(member).val();
+            fieldArray.push(value);
+        });
+        console.log(fieldName, fieldArray);
+    });
+
+    
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+    // form_data=  JSON.stringify(form_data);
+    mydata = {
+        com_id:provider_id,
+        scheme_id:scheme_id,
+        ids : ids.toString(), 
+        type : type.toString(), 
+        whitelabel : whitelabel.toString(), 
+        super_dist : super_dist.toString(), 
+        distributor : distributor.toString(), 
+        retailer : retailer.toString(), 
+        csrfmiddlewaretoken:csr
+    }
+    console.log(mydata);
+    $.ajax({
+        url:"{% url 'add_commission' %}",
+        method:"POST",
+        data:mydata,
+        success:function(data){
+            $('#bs-example-modal-xl').modal('hide');
+            if(data.mtype == 'success'){
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Your work has been saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+$(this).closest("tr").fadeOut();
+            }
+            else{
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'failed',
+                    title: 'Something went wrong',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+            }
+        }
+    });
+
+});
+
+
+    
+$("#add-btn").click(function(){
+    $('#update_scheme').modal('show');
+})
+
+
+// add data
+$("#btn-save").click(function(){
+    let sid = $("#scheme_id").val();
+    
+    let name = $("#scheme_name").val();
+    let type = $("#scheme_type").val();
+    let status = $("#scheme_status").val();
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+    mydata = {
+        sid:sid, name:name, type:type, status:status, csrfmiddlewaretoken:csr
+    };
+    $.ajax({
+        url:"{% url 'add_scheme' %}",
+        method:"POST",
+        data:mydata,
+        success:function(data){
+            $('#update_scheme').modal('hide');
+            if(data.mtype == 'success'){
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Your work has been saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+$(this).closest("tr").fadeOut();
+            }
+            else{
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'failed',
+                    title: 'Something went wrong',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+            }
+        }
+    });
+});
+
+ // delete data
+$("tbody").on('click','.btn-del',function(){
+    let id = $(this).attr('data-catid');
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+    mydata= {sid:id, csrfmiddlewaretoken:csr}
+    $.ajax({
+        url:"{% url 'delete_scheme' %}",
+        method:"POST",
+        data:mydata,
+        success:function(data){
+
+            if(data.mtype == 'success'){
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Your work has been saved',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+$(this).closest("tr").fadeOut();
+            }
+            else{
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'failed',
+                    title: 'Something went wrong',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
+            }
+        },
+
+        error:function(){
+            Swal.fire({
+                position: 'top-end',
+                icon: 'failed',
+                title: 'Something went wrong',
+                showConfirmButton: false,
+                timer: 1500
+              })
+        }
+    })
+});
+
+ 
+// Edit data
+$("tbody").on('click','.btn-edit',function(){
+
+    let id = $(this).attr('data-catid');
+    let csr = $("input[name=csrfmiddlewaretoken").val();
+    mydata= {sid:id, csrfmiddlewaretoken:csr}
+    $.ajax({
+        url:"{% url 'edit_scheme' %}",
+        method:"POST",
+        data:mydata,
+        success:function(data){
+            $('#update_scheme').modal('show');
+            $("#scheme_id").val(data.data.id);
+            $("#scheme_name").val(data.data.name);
+            $("#scheme_type").val(data.data.type);
+            data.data.status === true ? $("#scheme_status").val("True") :  $("#scheme_status").val("False");
+        },
+
+        error:function(){
+            Swal.fire({
+                position: 'top-end',
+                icon: 'failed',
+                title: 'Something went wrong',
+                showConfirmButton: false,
+                timer: 1500
+              })
+        }
+    })
+});
+
+
+// update form
+
+
+ </script>
+{% endblock %}
+
+
+

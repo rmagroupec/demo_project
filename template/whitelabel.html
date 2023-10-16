@@ -1,0 +1,1492 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="main-content">
+
+    <div class="page-content">
+        <div class="container-fluid">
+
+            <!-- start page title -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box d-sm-flex align-items-center justify-content-between">
+                        <h4 class="mb-sm-0">{{name}} User</h4>
+
+                        <div class="page-title-right">
+                            <ol class="breadcrumb m-0">
+                                <li class="breadcrumb-item"><a href="javascript: void(0);">Resource Management</a>
+                                </li>
+                                <li class="breadcrumb-item active">{{name}}</li>
+                            </ol>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- end page title -->
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="buttons-datatables" class="display table table-bordered" style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Role</th>
+                                        <th>Created At</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in data %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ item.name }}</td>
+                                        <td>{{ item.email }}</td>
+                                        <a href="#" class="clockable"><td>{{ item.phone }}</td></a>
+                                        <td>{{ item.role.name }}</td>
+                                        <td>{{ item.created_at }}</td>
+                                        
+                                        <td>
+                                            <div class="btn-group">
+                                                <button type="button" class="btn btn-light dropdown-toggle"
+                                                    data-bs-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                    <i class=" bx bx-menu" style="font-size: 20px;"></i>
+
+                                                </button>
+
+                                                <div class="dropdown-menu" style="padding: 10px;">
+                                                    <span style="padding-left: 10px;font-size:12px;">Action</span>
+                                                    <a class="dropdown-item" href="#" style="font-size: 14px;" data-bs-toggle="modal" data-bs-target=".bs-example-modal-lg"><i class="bx bxs-wallet-alt" style="font-size: 18px;"></i>&nbsp;&nbsp; Fund Transfer/Return</a>
+                                                    <a class="dropdown-item" href="#" style="font-size: 14px;" data-bs-toggle="modal" data-bs-target=".bs-example-modal-xl"><i class="bx bxs-wallet-alt" style="font-size: 18px;"></i>&nbsp;&nbsp; Scheme</a>
+                                                    <span style="padding-left: 10px;font-size:12px;">Setting</span>
+                                                    <a class="dropdown-item" href="#" style="font-size: 14px;"> <i class="bx bx-cog" style="font-size: 18px;"></i> &nbsp;&nbsp;Permission</a>
+                                                    {% if user.role.id == 9 or user.role.id == 9 %}
+                                                    <a class="dropdown-item" href="{% url 'profile_manager' item.id %}" style="font-size: 14px;"><i class="bx bxs-user" style="font-size: 18px;"></i>&nbsp;&nbsp;View Profile</a>
+                                                    {% endif %}
+                                                    <a class="dropdown-item" href="#" style="font-size: 14px;"><i class="bx bx-cog" style="font-size: 18px;"></i>&nbsp;&nbsp;Kyc Manager</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div><!--end row-->
+
+
+
+        </div>
+        <!-- container-fluid -->
+    </div>
+    <!-- End Page-content -->
+
+    <footer class="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6">
+                    <script>document.write(new Date().getFullYear())</script> © Paynims.
+                </div>
+                <div class="col-sm-6">
+                    <div class="text-sm-end d-none d-sm-block">
+                        Design & Develop by Rakle IT Solutions
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Static Backdrop -->
+
+    <div class="modal fade bs-example-modal-xl" tabindex="-1" role="dialog"
+                        aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color:#405189;height: 60px">
+                                    <h5 class="modal-title" id="myLargeModalLabel"
+                                        style="color: white;margin-top: -10px;">mobile Commission</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <!-- <div class="modal-body">
+                                   
+                                </div> -->
+                                <!-- Bordered Tables -->
+                                <!-- /<table class="table table-bordered table-nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" style="color:#405189">Operator</th>
+                                            <th scope="col" style="color:#405189">Commission Type</th>
+                                            <th scope="col" style="color:#405189">Whitelable</th>
+                                            <th scope="col" style="color:#405189">State Head</th>
+                                            <th scope="col" style="color:#405189">Master Distributor</th>
+                                            <th scope="col" style="color:#405189">Distributor</th>
+                                            <th scope="col" style="color:#405189">Retailer</th>
+
+                                        </tr>
+
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr>
+                                            <th scope="row" style="color:#405189">
+                                                VODAFONE
+                                            </th>
+
+                                            <td class="p-t-0 p-b-0">
+                                                <select class="form-select sl" aria-label=".form-select-lg example">
+                                                    <option value="">Select Type</option>
+                                                    <option value="percent">Percent (%)</option>
+                                                    <option value="flat">Flat (Rs)</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" style="color:#405189">BSNL</th>
+                                            <td class="p-t-0 p-b-0">
+                                                <select class="form-select sl" aria-label=".form-select-lg example">
+                                                    <option value="">Select Type</option>
+                                                    <option value="percent">Percent (%)</option>
+                                                    <option value="flat">Flat (Rs)</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>                                 
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" style="color:#405189">BSNL<br> SPECIAL</th>
+                                            <td class="p-t-0 p-b-0">
+                                                <select class="form-select sl" aria-label=".form-select-lg example">
+                                                    <option value="">Select Type</option>
+                                                    <option value="percent">Percent (%)</option>
+                                                    <option value="flat">Flat (Rs)</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>                             
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" style="color:#405189">JIO LIVE</th>
+                                            <td class="p-t-0 p-b-0">
+                                                <select class="form-select sl" aria-label=".form-select-lg example">
+                                                    <option value="">Select Type</option>
+                                                    <option value="percent">Percent (%)</option>
+                                                    <option value="flat">Flat (Rs)</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>                             
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row" style="color:#405189">JIO</th>
+                                            <td class="p-t-0 p-b-0">
+                                                <select class="form-select sl" aria-label=".form-select-lg example">
+                                                    <option value="">Select Type</option>
+                                                    <option value="percent">Percent (%)</option>
+                                                    <option value="flat">Flat (Rs)</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>                                         
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <th scope="row" style="color:#405189">IDEA</th>
+                                            <td class="p-t-0 p-b-0">
+                                                <select class="form-select sl" aria-label=".form-select-lg example">
+                                                    <option value="">Select Type</option>
+                                                    <option value="percent">Percent (%)</option>
+                                                    <option value="flat">Flat (Rs)</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>                                      
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row" style="color:#405189">AIRTEL</th>
+                                            <td class="p-t-0 p-b-0">
+                                                <select class="form-select sl" aria-label=".form-select-lg example">
+                                                    <option value="">Select Type</option>
+                                                    <option value="percent">Percent (%)</option>
+                                                    <option value="flat">Flat (Rs)</option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>                                          
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                            <td>
+                                                <input type="password" class="form-control" id="basiInput" placeholder="Enter Value">
+                                            </td>
+                                        </tr>
+
+
+                                    </tbody>
+                                </table> -->
+                                <p style="margin-left: 20px ;margin-top: 10px;">Scheme</p>
+                                <!-- <select class="form-select sl" aria-label=".form-select-lg example"
+                                    style="width: 40%;margin-left: 15px;">
+                                    <option value="">Select Scheme</option>
+                                    <option value="percent">Premium Plan</option>
+                                    <option value="flat">Admin Retailers</option>
+                                    <option value="flat">Special Package</option>
+                                    <option value="flat">Pan card commission</option>
+                                    <option value="flat">DTH Commission</option>
+                                    <option value="flat">Ministatement Commission</option>
+                                    <option value="flat">Eletricity Commission</option>
+                                    <option value="flat">Landline Commission</option>
+                                    <option value="flat">Postpaid Commission</option>
+                                    <option value="flat">Water Commission</option>
+                                    <option value="flat">Gasutility Commission</option>
+                                </select> -->
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <select class="form-select sl" aria-label=".form-select-lg example"
+                                            style="width: 100%;margin-left: 15px;">
+                                            <option value="">Select Scheme</option>
+                                            <option value="percent">Premium Plan</option>
+                                            <option value="flat">Admin Retailers</option>
+                                            <option value="flat">Special Package</option>
+                                            <option value="flat">Pan card commission</option>
+                                            <option value="flat">DTH Commission</option>
+                                            <option value="flat">Ministatement Commission</option>
+                                            <option value="flat">Eletricity Commission</option>
+                                            <option value="flat">Landline Commission</option>
+                                            <option value="flat">Postpaid Commission</option>
+                                            <option value="flat">Water Commission</option>
+                                            <option value="flat">Gasutility Commission</option>
+                                        </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-3">
+                                            <button type="button" class="btn"
+                                            style="background-color: #405189;color: white;">submit</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <br>
+                                <br>
+
+                                <div class="row">
+
+                                    <d iv class="col-xxl-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <!-- Nav tabs -->
+                                                <ul class="nav nav-tabs nav-tabs-custom nav-success nav-justified mb-3"
+                                                    role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" data-bs-toggle="tab" href="#home1"
+                                                            role="tab">
+                                                            Mobile
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-bs-toggle="tab" href="#profile1"
+                                                            role="tab">
+                                                            DTH
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-bs-toggle="tab" href="#messages1"
+                                                            role="tab">
+                                                            ELETRICITY
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-bs-toggle="tab" href="#settings1"
+                                                            role="tab">
+                                                            PANCARD
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-bs-toggle="tab" href="#dmt1"
+                                                            role="tab">
+                                                            DMT
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-bs-toggle="tab" href="#apes1"
+                                                            role="tab">
+                                                            APES
+                                                        </a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-bs-toggle="tab" href="#ministatement1"
+                                                            role="tab">
+                                                            MINISTATMENT
+                                                        </a>
+                                                    </li>
+                                                </ul>
+
+                                                <!-- Tab panes -->
+                                                <div class="tab-content text-muted">
+                                                    <div class="tab-pane active" id="home1" role="tabpanel">
+                                                        <div class="d-flex">
+                                                            <!-- <div class="flex-shrink-0">
+                                                                
+                                                            </div> -->
+                                                            <div class="flex-grow-1 ms-2">
+                                                                <table class="table table-bordered table-nowrap">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Provider
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Type
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Whitelable
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                State Head
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Md
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Distributor
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Retailer
+                                                                            </th>
+
+                                                                        </tr>
+
+                                                                    </thead>
+
+                                                                    <tbody>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                VODAFONE
+                                                                            </th>
+
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.80</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 3.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                2.50
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">BSNL
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>4.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>4.90</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>4.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>4.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                4.00
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                BSNL<br> SPECIAL</th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 4.50</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                4.90
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 4.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 4.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                4.00
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">JIO
+                                                                                LIVE</th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.00</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.30</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.00</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 2.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                2.00
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">JIO
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 3.50</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.80</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 3.50</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                1.00
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">IDEA
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 3.50</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                3.80
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 3.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                2.50
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">AIRTEL
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 3.50</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.80</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 3.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                2.50
+                                                                            </td>
+                                                                        </tr>
+
+
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="profile1" role="tabpanel">
+                                                        <div class="d-flex">
+                                                            <!-- <div class="flex-shrink-0">
+                                                                <i
+                                                                    class="ri-checkbox-multiple-blank-fill text-success"></i>
+                                                            </div> -->
+                                                            <div class="flex-grow-1 ms-2">
+                                                                <table class="table table-bordered table-nowrap">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Provider
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Type
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Whitelable
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                State Head
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Md
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Distributor
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Retailer
+                                                                            </th>
+
+                                                                        </tr>
+
+                                                                    </thead>
+
+                                                                    <tbody>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Tata Sky
+                                                                            </th>
+
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.75</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                2.50
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Dish TV
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 3.50</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                3.75
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                2.50
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Videocon D2H
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.50</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.75</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.50</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                2.50
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Sun Direct TV (With Validation)
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 3.50</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.75</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.50</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                2.50
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Airtel DTH
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 3.50</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                3.75
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 3.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>3.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                2.50
+                                                                            </td>
+                                                                        </tr>
+
+
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="messages1" role="tabpanel">
+                                                        <div class="d-flex">
+                                                            <!-- <div class="flex-shrink-0">
+                                                                <i
+                                                                    class="ri-checkbox-multiple-blank-fill text-success"></i>
+                                                            </div> -->
+                                                            <div class="flex-grow-1 ms-2">
+                                                                <table class="table table-bordered table-nowrap">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Provider
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Type
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Whitelable
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                State Head
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Md
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Distributor
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Retailer
+                                                                            </th>
+
+                                                                        </tr>
+
+                                                                    </thead>
+
+                                                                    <tbody>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                DHBVN - HARYANA
+                                                                            </th>
+
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.10</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                0.00
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Jodhpur Vidyut Vitran Nigam - RAJASTHAN
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.10</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                0.00
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Ajmer Vidyut Vitran Nigam - RAJASTHAN
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.10</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                0.00
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                PSPCL - PUNJAB
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.10</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                0.00
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Kota Electricity Distribution -
+                                                                                RAJASTHAN
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.20</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.10</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                0.00
+                                                                            </td>
+                                                                        </tr>
+
+
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="settings1" role="tabpanel">
+                                                        <div class="d-flex">
+                                                            <!-- <div class="flex-shrink-0">
+                                                                <i
+                                                                    class="ri-checkbox-multiple-blank-fill text-success"></i>
+                                                            </div> -->
+                                                            <div class="flex-grow-1 ms-2">
+                                                                <table class="table table-bordered table-nowrap">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Provider
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Type
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Whitelable
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                State Head
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Md
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Distributor
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Retailer
+                                                                            </th>
+
+                                                                        </tr>
+
+                                                                    </thead>
+
+                                                                    <tbody>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Utipancard
+                                                                            </th>
+
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p> Flat</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 1.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 0.50</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p> 1.00 </p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>1.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                5.00
+                                                                            </td>
+                                                                        </tr>
+
+
+
+
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="dmt1" role="tabpanel">
+                                                        <div class="d-flex">
+                                                            <!-- <div class="flex-shrink-0">
+                                                                <i
+                                                                    class="ri-checkbox-multiple-blank-fill text-success"></i>
+                                                            </div> -->
+                                                            <div class="flex-grow-1 ms-2">
+                                                                <table class="table table-bordered table-nowrap">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Provider
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Type
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Whitelable
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                State Head
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Md
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Distributor
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Retailer
+                                                                            </th>
+
+                                                                        </tr>
+
+                                                                    </thead>
+
+                                                                    <tbody>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Dmt1verify
+                                                                            </th>
+
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Float</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                4.00
+                                                                            </td>
+                                                                            <td>
+                                                                                4.00
+
+                                                                            </td>
+                                                                            <td>
+                                                                                4.00
+                                                                            </td>
+                                                                            <td>
+                                                                                4.00
+                                                                            </td>
+                                                                            <td>
+                                                                                4.00
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Dmt1 100-1000
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Float</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>5.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>5.00</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>4.50</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>5.00</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                6.00
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Dmt1 1001-2000
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.30</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.30</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.30</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.40</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                0.50
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Dmt1 2001-3000
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.30</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.30</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.30</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                <p>0.40</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                0.50
+                                                                            </td>
+                                                                        </tr>
+
+
+
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="apes1" role="tabpanel">
+                                                        <div class="d-flex">
+                                                            <!-- <div class="flex-shrink-0">
+                                                                <i
+                                                                    class="ri-checkbox-multiple-blank-fill text-success"></i>
+                                                            </div> -->
+                                                            <div class="flex-grow-1 ms-2">
+                                                                <table class="table table-bordered table-nowrap">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Provider
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Type
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Whitelable
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                State Head
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Md
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Distributor
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Retailer
+                                                                            </th>
+
+                                                                        </tr>
+
+                                                                    </thead>
+
+                                                                    <tbody>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Ministatement
+                                                                            </th>
+
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Float</p>
+                                                                            </td>
+                                                                            <td>
+                                                                                0.00
+                                                                            </td>
+                                                                            <td>
+                                                                                0.00
+
+                                                                            </td>
+                                                                            <td>
+                                                                                0.00
+                                                                            </td>
+                                                                            <td>
+                                                                                0.00
+                                                                            </td>
+                                                                            <td>
+                                                                                0.00
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Aeps Slab1 100-499
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Percent</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                0.35
+                                                                            </td>
+                                                                            <td>
+                                                                                0.35
+
+                                                                            </td>
+                                                                            <td>
+                                                                                0.35
+                                                                            </td>
+                                                                            <td>
+                                                                                0.30
+                                                                            </td>
+                                                                            <td>
+                                                                                0.20
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Aeps Slab2 500-1000
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Float</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                2.50
+                                                                            </td>
+                                                                            <td>
+                                                                                2.50
+
+                                                                            </td>
+                                                                            <td>
+                                                                                2.50
+                                                                            </td>
+                                                                            <td>
+                                                                                2.00
+                                                                            </td>
+                                                                            <td>
+                                                                                1.50
+                                                                            </td>
+                                                                        </tr>
+
+                                                                        <tr>
+                                                                            <th scope="row" style="color:#405189">
+                                                                                Aeps Slab3 1001-2000
+                                                                            </th>
+                                                                            <td class="p-t-0 p-b-0">
+                                                                                <p>Float</p>
+
+                                                                            </td>
+                                                                            <td>
+                                                                                3.50
+                                                                            </td>
+                                                                            <td>
+                                                                                3.50
+
+                                                                            </td>
+                                                                            <td>
+                                                                                3.50
+                                                                            </td>
+                                                                            <td>
+                                                                                3.00
+                                                                            </td>
+                                                                            <td>
+                                                                                2.50
+                                                                            </td>
+                                                                        </tr>
+
+
+
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane" id="ministatement1" role="tabpanel">
+                                                        <div class="d-flex">
+                                                            <!-- <div class="flex-shrink-0">
+                                                                <i
+                                                                    class="ri-checkbox-multiple-blank-fill text-success"></i>
+                                                            </div> -->
+                                                            <div class="flex-grow-1 ms-2">
+                                                                <table class="table table-bordered table-nowrap">
+                                                                    <thead>
+                                                                        <tr>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Provider
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Type
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Whitelable
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                State Head
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Md
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Distributor
+                                                                            </th>
+                                                                            <th scope="col" style="color:#405189">
+                                                                                Retailer
+                                                                            </th>
+
+                                                                        </tr>
+
+                                                                    </thead>
+
+                                                                    <tbody>
+
+
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!-- end card-body -->
+                                        </div><!-- end card -->
+                                </div>
+                                <!--end col-->
+
+
+                                <!--end col-->
+                                <div class="modal-footer">
+
+                                    <a href="javascript:void(0);" class="btn btn-link link-success fw-medium but"
+                                        data-bs-dismiss="modal"> Close</a>
+                                    <!-- <button type="button" class="btn"sss -->
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    
+                    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header" style="background-color:#405189;height: 60px">
+                                    <h5 class="modal-title" id="myLargeModalLabel"
+                                        style="color: white;margin-top: -10px;">Fund Transfer / Return</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <div class="mb-3">
+                                                <label for="firstNameinput" class="form-label">Fund Action</label>
+                                                <select class="form-select sl" aria-label=".form-select-lg example"
+                                                style="width: 100%;">
+                                                <option value="">Select Scheme</option>
+                                                <option value="percent">Transfer</option>
+                                                <option value="flat">Return</option>
+                                            
+                                            </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="mb-3">
+                                                <label for="lastNameinput" class="form-label"> 
+                                                    Amount</label>
+                                                <input type="text" class="form-control" placeholder="Enter your Amount" id="lastNameinput"
+                                                style="border: none;border-bottom: 1px solid #405189;border-radius: 0px;"
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="mb-3">
+                                                <label for="lastNameinput" class="form-label"> Remark
+                                                    </label>
+                                                    <textarea class="form-control" id="VertimeassageInput" rows="4" placeholder="Enter Remark"
+                                                    style="border: none;border-bottom: 1px solid #405189;border-radius: 0px;"
+
+                                                    ></textarea>
+
+                                            </div>
+                                        </div>
+                                        </div>
+                                    
+                        
+                                </div>
+                                <!--end col-->
+                                <div class="modal-footer">
+
+                                    <a href="javascript:void(0);" class="btn btn-link link-success fw-medium but"
+                                        data-bs-dismiss="modal"> Close</a>
+                                        <button type="button" class="btn"
+                                        style="background-color: #405189;color: white;">submit</button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div>
+</div>
+{% endblock %}
